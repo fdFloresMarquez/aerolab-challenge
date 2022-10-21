@@ -20,7 +20,7 @@ export const HomeScreen: React.FC = () => {
   if (status === 'pending') {
     return (
       <Flex alignItems="center" justifyContent="center" paddingY="12">
-        <CircularProgress isIndeterminate color="primary.00" />
+        <CircularProgress isIndeterminate color="primary.400" />
       </Flex>
     );
   }
