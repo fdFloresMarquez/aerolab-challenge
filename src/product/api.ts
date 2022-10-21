@@ -30,6 +30,8 @@ export default {
         500,
       ),
     ),
+  redeem: (product: Product): Promise<string> =>
+    Promise.resolve(`You have redeem the product succesfully (${product.name})`),
 };
 
 // Promise.resolve([
