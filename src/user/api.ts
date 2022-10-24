@@ -1,28 +1,37 @@
 import { User } from './types';
 
+const token = import.meta.env.VITE_AEROLAB_TOKEN;
+
 export default {
   fetch: (): Promise<User> =>
-    new Promise((resolve) =>
-      setTimeout(
-        () =>
-          resolve({
-            id: '5a03638052fd231590d04eb5',
-            name: 'John Kite',
-            points: 2000,
-            redeemHistory: [],
-          }),
-        500,
-      ),
-    ),
+    fetch('https://coding-challenge-api.aerolab.co/user/me', {
+      method: 'GET',
+      headers: new Headers({ Authorization: token }),
+    }).then((res) => {
+      if (!res.ok) {
+        throw new Error(`Http error! Status: ${res.status}`);
+      }
+
+      return res.json();
+    }),
   points: {
-    add: (amount: number): Promise<number> => Promise.resolve(amount),
+    add: async (amount: number): Promise<number> => {
+      const requestOptions = {
+        method: 'POST',
+        headers: new Headers({ Authorization: token, 'Content-Type': 'application/json' }),
+        body: JSON.stringify({ amount }),
+      };
+
+      return await fetch(
+        'https://coding-challenge-api.aerolab.co/user/points',
+        requestOptions,
+      ).then((res) => {
+        if (!res.ok) {
+          throw new Error(`Http error! Status: ${res.status}`);
+        }
+
+        return res.json();
+      });
+    },
   },
 };
-
-// Promise.resolve({
-//   id: '5a03638052fd231590d04eb5',
-//   name: 'John Kite',
-//   points: 2000,
-//   redeemHistory: [],
-//   createDate: 'new Date(1510171520852)',
-// }),
