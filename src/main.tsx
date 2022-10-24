@@ -1,18 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
 
 import { AppTheme } from './theme';
-import { HomeScreen } from './app/screens/Home';
 import { Layout } from './app/layout';
 import { Provider as UserProvider } from './user/context';
 import './theme.css';
+import { AppRouter } from './router/AppRouter';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <AppTheme>
       <UserProvider>
         <Layout>
-          <HomeScreen />
+          <BrowserRouter>
+            <AppRouter />
+          </BrowserRouter>
         </Layout>
       </UserProvider>
     </AppTheme>
