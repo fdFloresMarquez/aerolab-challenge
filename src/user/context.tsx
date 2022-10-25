@@ -10,6 +10,7 @@ import { Product } from '@/product/types';
 export interface Context {
   state: {
     user: User;
+    redeemStatus: 'pending' | 'resolved' | 'rejected';
   };
   actions: {
     addPoints: (amount: number) => Promise<void>;
@@ -26,13 +27,22 @@ const UserContext = React.createContext({} as Context);
 const UserProvider: React.FC<ProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User>();
   const [status, setStatus] = useState<'pending' | 'resolved' | 'rejected'>('pending');
+  const [redeemStatus, setRedeemStatus] = useState<'pending' | 'resolved' | 'rejected'>('rejected');
 
   const handleRedeem = async (product: Product) => {
     if (!user) return;
+    setRedeemStatus('pending');
 
-    return productApi.redeem(product).then(() => {
-      setUser({ ...user, points: user.points - product.cost });
-    });
+    try {
+      return await productApi.redeem(product).then(() => {
+        setUser({ ...user, points: user.points - product.cost });
+        setRedeemStatus('resolved');
+      });
+    } catch (error) {
+      setRedeemStatus('rejected');
+
+      throw new Error(`Cannot reddeem product ${error}`);
+    }
   };
 
   const handleAddPoints = async (amount: number) => {
@@ -44,10 +54,16 @@ const UserProvider: React.FC<ProviderProps> = ({ children }) => {
   };
 
   useEffect(() => {
-    api.fetch().then((user) => {
-      setUser(user);
-      setStatus('resolved');
-    });
+    api
+      .fetch()
+      .then((user) => {
+        setUser(user);
+        setStatus('resolved');
+      })
+      .catch((error) => {
+        setStatus('rejected');
+        throw error;
+      });
   }, []);
 
   if (!user || status === 'pending') {
@@ -60,6 +76,7 @@ const UserProvider: React.FC<ProviderProps> = ({ children }) => {
 
   const state: Context['state'] = {
     user,
+    redeemStatus,
   };
   const actions = {
     addPoints: handleAddPoints,
