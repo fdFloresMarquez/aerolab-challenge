@@ -3,14 +3,23 @@ import { Product } from './types';
 const token = import.meta.env.VITE_AEROLAB_TOKEN;
 
 export default {
-  list: (): Promise<Product[]> =>
-    fetch(`https://coding-challenge-api.aerolab.co/products?token=${token}`).then((res) => {
+  list: async (fetchParam: string): Promise<Product[]> => {
+    const requestOptions = {
+      method: 'GET',
+      headers: new Headers({ Authorization: token }),
+    };
+
+    return await fetch(
+      `https://coding-challenge-api.aerolab.co/${fetchParam}`,
+      requestOptions,
+    ).then((res) => {
       if (!res.ok) {
         throw new Error(`Http error! Status: ${res.status}`);
       }
 
       return res.json();
-    }),
+    });
+  },
   redeem: async (product: Product): Promise<string> => {
     const requestOptions = {
       method: 'POST',

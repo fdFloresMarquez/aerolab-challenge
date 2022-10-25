@@ -1,21 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { CircularProgress, Flex, Heading, Stack } from '@chakra-ui/react';
+import { CircularProgress, Container, Flex, Heading, Stack } from '@chakra-ui/react';
 
 import api from '@/product/api';
 import { Product } from '@/product/types';
 import header from '@/assets/header.png';
 import { ProductsList } from '@/product/components/ProductsList';
 
-export const HomeScreen: React.FC = () => {
+interface Props {
+  title: string;
+  fetchParam: string;
+}
+
+export const HomeScreen: React.FC<Props> = ({ title, fetchParam }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [status, setStatus] = useState<'pending' | 'resolved' | 'rejected'>('pending');
 
   useEffect(() => {
-    api.list().then((products) => {
-      setProducts(products);
+    api.list(fetchParam).then((res) => {
+      setProducts(res);
       setStatus('resolved');
     });
-  }, []);
+  }, [fetchParam]);
 
   if (status === 'pending') {
     return (
@@ -33,14 +38,16 @@ export const HomeScreen: React.FC = () => {
         backgroundSize="cover"
         borderRadius="md"
         justifyContent="flex-start"
-        minHeight={64}
+        minHeight={450}
         padding={6}
       >
-        <Heading color="white" fontSize="4xl">
-          Electronics
+        <Heading color="white" fontSize="5xl">
+          {title}
         </Heading>
       </Flex>
-      <ProductsList products={products} />
+      <Container alignSelf="center" maxWidth="7xl">
+        <ProductsList products={products} />
+      </Container>
     </Stack>
   );
 };
