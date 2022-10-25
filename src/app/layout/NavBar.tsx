@@ -28,7 +28,7 @@ export const NavBar: React.FC = () => {
 
   return (
     <Box backgroundColor="white" boxShadow="md">
-      <Container maxWidth="6xl">
+      <Container maxWidth="9xl">
         <Stack
           alignItems="center"
           as="nav"
@@ -73,7 +73,9 @@ export const NavBar: React.FC = () => {
                     <CoinButton points={7500} />
                   </Stack>
                 </PopoverBody>
-                <PopoverFooter textAlign="center">History</PopoverFooter>
+                <Link href="/history">
+                  <PopoverFooter textAlign="center">History</PopoverFooter>
+                </Link>
               </PopoverContent>
             </Portal>
           </Popover>

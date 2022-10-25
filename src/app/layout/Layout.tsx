@@ -12,7 +12,7 @@ export const Layout: React.FC<Props> = ({ children }) => {
     <Flex backgroundColor="gray.100" direction="column" flex={1}>
       <NavBar />
       <Center paddingY={6}>
-        <Container maxWidth="6xl">{children}</Container>
+        <Container maxWidth="9xl">{children}</Container>
       </Center>
     </Flex>
   );
