@@ -9,6 +9,7 @@ import { ProductGrid } from './ProductGrid';
 import { Product } from '@/product/types';
 import arrowLeft from '@/assets/icons/arrow-left.svg';
 import arrowRight from '@/assets/icons/arrow-right.svg';
+import { useProductList } from '@/product/hooks';
 
 interface Props {
   products: Product[];
@@ -26,41 +27,31 @@ export const ProductsList: React.FC<Props> = ({ products }) => {
       }
       case Filter.MostRecent:
       default: {
-        return products;
+        return [...products].reverse();
       }
     }
   }, [filter, products]);
 
-  const [qtyProducts, setQtyProducts] = useState<number>(16);
+  const { from, to, goBack, goRight, getCurrentCount } = useProductList();
 
-  const goBack = (): void => {
-    if (qtyProducts <= 16) return;
-    setQtyProducts(qtyProducts - 16);
-  };
-
-  const goRight = (): void => {
-    if (qtyProducts >= products.length) return;
-    setQtyProducts(qtyProducts * 2);
-  };
-
-  const productsOnPage = filteredProducts.slice(qtyProducts - 16, qtyProducts);
+  const productsOnPage = filteredProducts.slice(from, to);
 
   return (
     <Stack alignItems="flex-start" spacing={6}>
       <Stack as="nav" direction="row" flex={1} justifyContent="space-between" w="100%">
         <Stack alignItems="center" direction="row" spacing={6}>
-          <Count current={qtyProducts} total={products.length} />
+          <Count current={getCurrentCount(to, products.length)} total={products.length} />
           <Divider borderColor="gray.300" h={12} orientation="vertical" />
           <Filters active={filter} onChange={setFilter} />
         </Stack>
 
         <Stack direction="row" ml="auto" spacing={3}>
           <Image cursor="pointer" src={arrowLeft} onClick={() => goBack()} />
-          <Image cursor="pointer" src={arrowRight} onClick={() => goRight()} />
+          <Image cursor="pointer" src={arrowRight} onClick={() => goRight(products.length)} />
         </Stack>
       </Stack>
       <ProductGrid products={productsOnPage} />
-      <Count current={qtyProducts} total={products.length} />
+      <Count current={getCurrentCount(to, products.length)} total={products.length} />
     </Stack>
   );
 };

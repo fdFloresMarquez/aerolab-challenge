@@ -1,4 +1,15 @@
-import { Box, Button, Center, Divider, Flex, Image, Stack, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Center,
+  CircularProgress,
+  Divider,
+  Flex,
+  Image,
+  Stack,
+  Text,
+  useToast,
+} from '@chakra-ui/react';
 
 import { Product } from '../types';
 
@@ -13,12 +24,33 @@ interface Props {
 
 export const ProductCard: React.FC<Props> = ({ product, isSelected, ...props }) => {
   const [points] = usePoints();
-  const redeem = useRedeem();
+  const [redeemStatus, redeem] = useRedeem();
+  const toast = useToast();
   const canBuy = product.cost <= points;
 
-  const handleRedeem = () => {
+  const handleRedeem = async () => {
     if (canBuy) {
-      return redeem(product);
+      try {
+        await redeem(product);
+        toast({
+          title: 'Redeemed succesfuly!',
+          description: `${product.name} added to your history.`,
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+          position: 'bottom-left',
+        });
+      } catch (error) {
+        toast({
+          title: 'Redeemed Failed!',
+          description: `Something when wrong redeeming: ${product.name}`,
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+          position: 'bottom-left',
+        });
+        throw new Error(`Cannot rededem product ${error}`);
+      }
     }
   };
 
@@ -33,7 +65,7 @@ export const ProductCard: React.FC<Props> = ({ product, isSelected, ...props }) 
       padding={6}
       position="relative"
     >
-      <Stack spacing={3}>
+      <Stack spacing={3} userSelect="none">
         <Stack
           alignItems="center"
           backgroundColor="white"
@@ -99,7 +131,12 @@ export const ProductCard: React.FC<Props> = ({ product, isSelected, ...props }) 
                 </Text>
                 <Text>{points - product.cost}</Text>
               </Stack>
-              {canBuy && (
+              {redeemStatus === 'pending' && (
+                <Center>
+                  <CircularProgress isIndeterminate color="primary.400" />
+                </Center>
+              )}
+              {canBuy && redeemStatus !== 'pending' && (
                 <Button color="primary.500" onClick={handleRedeem}>
                   Redeem now
                 </Button>

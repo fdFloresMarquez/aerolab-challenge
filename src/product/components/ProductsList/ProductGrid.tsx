@@ -14,14 +14,18 @@ export const ProductGrid: React.FC<Props> = ({ products }) => {
 
   return (
     <Grid gap={6} templateColumns="repeat(auto-fill, minmax(256px, 1fr))" w="100%">
-      {products.map((product) => (
-        <ProductCard
-          key={product._id}
-          isSelected={selected === product._id}
-          product={product}
-          onClick={() => setSelected(product._id)}
-        />
-      ))}
+      {products.map((product, i) => {
+        const { productId, _id } = product;
+
+        return (
+          <ProductCard
+            key={productId ? productId + i : _id}
+            isSelected={selected === product._id && !productId}
+            product={product}
+            onClick={() => setSelected(product._id)}
+          />
+        );
+      })}
     </Grid>
   );
 };
