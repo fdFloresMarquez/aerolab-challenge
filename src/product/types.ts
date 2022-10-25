@@ -7,4 +7,5 @@ export interface Product {
     url: string;
     hdUrl: string;
   };
+  productId?: string;
 }
