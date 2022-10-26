@@ -10,6 +10,7 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react';
+import React from 'react';
 
 import { Product } from '../types';
 
@@ -27,6 +28,18 @@ export const ProductCard: React.FC<Props> = ({ product, isSelected, ...props }) 
   const [redeemStatus, redeem] = useRedeem();
   const toast = useToast();
   const canBuy = product.cost <= points;
+
+  const renderTextDate = (): React.ReactNode | string => {
+    if (product.createDate) {
+      const date = new Date(product.createDate);
+
+      return (
+        <Text color="gray.500" fontSize="xs" fontWeight="500">
+          Redeemed: {date.getDay()}/{date.getMonth()}/{date.getFullYear()}
+        </Text>
+      );
+    } else return '';
+  };
 
   const handleRedeem = async () => {
     if (canBuy) {
@@ -99,6 +112,7 @@ export const ProductCard: React.FC<Props> = ({ product, isSelected, ...props }) 
           <Text color="gray.500" fontSize="sm" fontWeight="500">
             {product.name}
           </Text>
+          {renderTextDate()}
         </Stack>
         {isSelected && (
           <Flex

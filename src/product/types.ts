@@ -8,4 +8,5 @@ export interface Product {
     hdUrl: string;
   };
   productId?: string;
+  createDate?: string;
 }
