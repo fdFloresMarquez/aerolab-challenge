@@ -1,4 +1,4 @@
-import { Avatar, Box, Divider, Image, Stack, Text } from '@chakra-ui/react';
+import { Avatar, Divider, Stack } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
 import { ChevronRightIcon, ChevronLeftIcon } from '@chakra-ui/icons';
 
@@ -37,8 +37,19 @@ export const ProductsList: React.FC<Props> = ({ products }) => {
 
   return (
     <Stack alignItems="flex-start" spacing={6}>
-      <Stack as="nav" direction="row" flex={1} justifyContent="space-between" w="100%">
-        <Stack alignItems="center" direction="row" spacing={6}>
+      <Stack
+        as="nav"
+        direction="row"
+        flex={1}
+        justifyContent={{ base: 'center', md: 'space-between' }}
+        w="100%"
+      >
+        <Stack
+          alignItems="center"
+          direction="row"
+          display={{ base: 'none', md: 'flex' }}
+          spacing={6}
+        >
           <Count current={getCurrentCount(to, products.length)} total={products.length} />
           <Divider borderColor="gray.300" h={12} orientation="vertical" />
           <Filters active={filter} onChange={setFilter} />
@@ -46,7 +57,7 @@ export const ProductsList: React.FC<Props> = ({ products }) => {
 
         <Stack direction="row" ml="auto" spacing={3}>
           <Avatar
-            bg="orange.400"
+            bg="transparent"
             border="1px solid black"
             className="avatar"
             cursor="pointer"
@@ -54,7 +65,7 @@ export const ProductsList: React.FC<Props> = ({ products }) => {
             onClick={() => goBack()}
           />
           <Avatar
-            bg="orange.400"
+            bg="transparent"
             border="1px solid black"
             className="avatar"
             cursor="pointer"

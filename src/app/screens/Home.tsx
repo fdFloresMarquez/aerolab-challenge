@@ -34,14 +34,14 @@ export const HomeScreen: React.FC<Props> = ({ title, fetchParam }) => {
     <Stack flex={1} spacing={6}>
       <Flex
         alignItems="flex-end"
-        backgroundImage={`url(${header})`}
+        backgroundImage={{ base: 'none', md: `url(${header})` }}
         backgroundSize="cover"
         borderRadius="md"
         justifyContent="flex-start"
-        minHeight={450}
+        minHeight={{ base: 100, md: 450 }}
         padding={6}
       >
-        <Heading color="white" fontSize="5xl">
+        <Heading color={{ base: 'black', md: 'white' }} fontSize="5xl">
           {title}
         </Heading>
       </Flex>
