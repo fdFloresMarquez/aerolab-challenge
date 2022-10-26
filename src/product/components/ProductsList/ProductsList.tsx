@@ -1,5 +1,6 @@
-import { Divider, Image, Stack } from '@chakra-ui/react';
+import { Avatar, Box, Divider, Image, Stack, Text } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
+import { ChevronRightIcon, ChevronLeftIcon } from '@chakra-ui/icons';
 
 import { Filter } from './types';
 import { Count } from './Count';
@@ -7,8 +8,6 @@ import { Filters } from './Filters';
 import { ProductGrid } from './ProductGrid';
 
 import { Product } from '@/product/types';
-import arrowLeft from '@/assets/icons/arrow-left.svg';
-import arrowRight from '@/assets/icons/arrow-right.svg';
 import { useProductList } from '@/product/hooks';
 
 interface Props {
@@ -46,8 +45,22 @@ export const ProductsList: React.FC<Props> = ({ products }) => {
         </Stack>
 
         <Stack direction="row" ml="auto" spacing={3}>
-          <Image cursor="pointer" src={arrowLeft} onClick={() => goBack()} />
-          <Image cursor="pointer" src={arrowRight} onClick={() => goRight(products.length)} />
+          <Avatar
+            bg="orange.400"
+            border="1px solid black"
+            className="avatar"
+            cursor="pointer"
+            icon={<ChevronLeftIcon className="btn-icon" color="black" />}
+            onClick={() => goBack()}
+          />
+          <Avatar
+            bg="orange.400"
+            border="1px solid black"
+            className="avatar"
+            cursor="pointer"
+            icon={<ChevronRightIcon className="btn-icon" color="black" />}
+            onClick={() => goRight(products.length)}
+          />
         </Stack>
       </Stack>
       <ProductGrid products={productsOnPage} />

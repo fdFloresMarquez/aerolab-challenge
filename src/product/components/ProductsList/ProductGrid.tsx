@@ -13,7 +13,12 @@ export const ProductGrid: React.FC<Props> = ({ products }) => {
   const [selected, setSelected] = useState<Product['_id'] | null>(null);
 
   return (
-    <Grid gap={6} templateColumns="repeat(auto-fill, minmax(256px, 1fr))" w="100%">
+    <Grid
+      className="animate__animated animate__fadeIn"
+      gap={6}
+      templateColumns="repeat(auto-fill, minmax(256px, 1fr))"
+      w="100%"
+    >
       {products.map((product, i) => {
         const { productId, _id } = product;
 

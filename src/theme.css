@@ -1,11 +1,11 @@
 :root {
-  --primary: #FB7B04;
+  --primary: #fb7b04;
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -23,3 +23,28 @@ body {
 * {
   box-sizing: border-box;
 }
+
+.avatar:hover .btn-icon{
+  color: white;
+  transform: translateY(-0.5px);
+  transition: all 250ms;
+}
+
+.avatar:hover {
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+  transform: translateY(-0.5px);
+}
+
+.avatar {
+  transition: all 250ms;
+}
+
+.avatar:active {
+  background-color: #e15c04;
+  box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;
+  transform: translateY(0);
+}
+
+
+
+
