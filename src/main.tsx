@@ -12,11 +12,11 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <AppTheme>
       <UserProvider>
-        <Layout>
-          <BrowserRouter>
+        <BrowserRouter>
+          <Layout>
             <AppRouter />
-          </BrowserRouter>
-        </Layout>
+          </Layout>
+        </BrowserRouter>
       </UserProvider>
     </AppTheme>
   </React.StrictMode>,

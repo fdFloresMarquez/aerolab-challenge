@@ -15,6 +15,7 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
+import { useLocation } from 'react-router-dom';
 
 import { CoinButton } from './CoinButton';
 
@@ -23,6 +24,8 @@ import logo from '@/assets/logo.svg';
 import coin from '@/assets/icons/coin.svg';
 
 export const NavBar: React.FC = () => {
+  const { pathname } = useLocation();
+
   const [points, addPoints] = usePoints();
   const user = useUser();
 
@@ -73,8 +76,10 @@ export const NavBar: React.FC = () => {
                     <CoinButton points={7500} />
                   </Stack>
                 </PopoverBody>
-                <Link href="/history">
-                  <PopoverFooter textAlign="center">History</PopoverFooter>
+                <Link href={pathname === '/history' ? '/' : '/history'}>
+                  <PopoverFooter textAlign="center">
+                    {pathname === '/history' ? 'Go back' : 'History'}
+                  </PopoverFooter>
                 </Link>
               </PopoverContent>
             </Portal>
