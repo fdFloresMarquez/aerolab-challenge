@@ -35,7 +35,7 @@ export const ProductCard: React.FC<Props> = ({ product, isSelected, ...props }) 
 
       return (
         <Text color="gray.500" fontSize="xs" fontWeight="500">
-          Redeemed: {date.getDay()}/{date.getMonth()}/{date.getFullYear()}
+          Redeemed: {date.getDate()}/{date.getMonth() + 1}/{date.getFullYear()}
         </Text>
       );
     } else return '';
